@@ -18,7 +18,7 @@ It expects to take over the entire page. Include it in an empty page like so:
     </head>
     <body>
       <script>
-        MiniLogo.init();
+        Logoish.init();
       </script>
     </body>
     </html>
