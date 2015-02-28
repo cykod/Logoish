@@ -51,4 +51,5 @@ All commands are added to the top level `window` object after calling `Logoish.i
 | `moveTo(x,y)`     | Move the turtle TO `x` and `y` on the canvas |
 | `move(x,y)`       | Move the turtle BY `x` and `y` on the canvas |
 | `speed(spd)`      | Set the drawing speed. Set to 0 for instant |
+| `stop()`          | Stop the current drawing animation and clear the queue |
 

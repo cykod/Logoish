@@ -98,7 +98,6 @@ Logoish = (function() {
     _positionTurtle();
   }
 
-
   self.skip = function(distance) {
     queue.push([ "skip", distance ]);
   }
@@ -186,6 +185,12 @@ Logoish = (function() {
   animate.speed = function(entry) {
     state.speed = entry[1];
   };
+
+  self.stop = function() {
+    queue = [];
+  };
+
+
 
 
   function _setState() {
