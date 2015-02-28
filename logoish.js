@@ -49,6 +49,7 @@ Logoish = (function() {
     state.lineColor = defaults.lineColor;
     state.x = Math.floor(state.width / 2);
     state.y = Math.floor(state.height / 2);
+    state.angle = 0;
     animate.show();
     _positionTurtle();
   }
