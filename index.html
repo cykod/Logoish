@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src='logoish.js'></script>
+</head>
+<body>
+
+
+<script>
+Logoish.init();
+
+// Make it draw faster
+// Set speed to 0 to draw instantly
+speed(100);
+
+function drawCross() { 
+
+    lineWidth(4);
+    lineColor("red");
+    forward(60);
+    rotate(120);
+    forward(60);
+    rotate(120);
+    forward(60);
+
+    lineWidth(1);
+    lineColor("blue");
+    forward(60);
+    rotate(120);
+    forward(60);
+    rotate(120);
+    forward(60);
+
+
+    lineWidth(10);
+    lineColor("pink");
+    forward(60);
+    rotate(120);
+    forward(60);
+    rotate(120);
+    forward(60);
+
+}
+
+for(var y = 100; y < 600; y+=100) { 
+    for(var x = 100; x < 700; x+= 100) {
+        moveTo(x,y);
+        drawCross();
+    }
+}
+
+hide();
+
+</script>
+	
+</body>
+</html>
