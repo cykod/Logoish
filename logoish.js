@@ -99,6 +99,42 @@ Logoish = (function() {
     _positionTurtle();
   }
 
+  self.arcRight = function(radius, angle) {
+    queue.push([ "arc", radius, angle, false ]);
+  }
+
+  self.arcLeft = function(radius, angle) {
+    queue.push([ "arc", radius, angle, true]);
+  }
+
+  animate.arc = function(entry) {
+    var radius = entry[0];
+    var angle = entry[1];
+
+    var calc = entry[4];
+
+    if(!entry[4]) {
+      calc = entry[4] = {};
+
+      calc.x = state.x + -radius * Math.sin(Math.PI / 180 * state.angle);
+      calc.y = state.y + r-adius * Math.cos(Math.PI / 180 * state.angle);
+
+      calc.start = state.angle;
+      calc.end = calc.start + entry[4];
+    }
+
+    // get the starting angle from our angle
+
+
+    // find the center 
+
+
+    // calc the start and end angle once
+
+
+    // draw as much of the arc as we like
+  }
+
   self.skip = function(distance) {
     queue.push([ "skip", distance ]);
   }
@@ -124,6 +160,9 @@ Logoish = (function() {
       angle = angle > 0 ? state.speed : -state.speed;
       entry[1] -= angle;
       queue.unshift(entry);
+    } else {
+      state.angle = state.angle % 360;
+
     }
 
     state.angle += angle;
@@ -208,13 +247,17 @@ Logoish = (function() {
   }
 
 
-  function _stepTurtle() {
+  function _stepTurtle(n) {
     if(queue.length > 0) {
       var current = queue.shift();
       animate[current[0]](current);
     }
     if(state.speed == 0 && queue.length > 0) {
-      _stepTurtle();
+      if(n == 200) {
+        setTimeout(_stepTurtle,1);
+      } else {
+        _stepTurtle(n ? (n+1) : 1);
+      }
     }
     requestAnimationFrame(_stepTurtle);
   }
