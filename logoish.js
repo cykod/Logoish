@@ -257,7 +257,9 @@ Logoish = (function() {
         _stepTurtle(n ? (n+1) : 1);
       }
     }
-    requestAnimationFrame(_stepTurtle);
+    if(!n) { 
+      requestAnimationFrame(_stepTurtle);
+    }
   }
 
   function createCanvas() {
