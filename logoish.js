@@ -246,6 +246,10 @@ Logoish = (function() {
     self.turtle.style.transform = "rotate(" + state.angle + "deg)";
   }
 
+  function _animateTurtle() {
+    _stepTurtle();
+  }
+
 
   function _stepTurtle(n) {
     if(queue.length > 0) {
@@ -253,12 +257,12 @@ Logoish = (function() {
       animate[current[0]](current);
     }
     if(state.speed == 0 && queue.length > 0) {
-      if(n < 100) {
+      if(!n || n < 300) {
         _stepTurtle(n ? (n+1) : 1);
       }
     }
     if(!n) { 
-      requestAnimationFrame(_stepTurtle);
+      requestAnimationFrame(_animateTurtle);
     }
   }
 
