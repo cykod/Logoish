@@ -253,9 +253,7 @@ Logoish = (function() {
       animate[current[0]](current);
     }
     if(state.speed == 0 && queue.length > 0) {
-      if(n == 200) {
-        setTimeout(_stepTurtle,1);
-      } else {
+      if(n < 100) {
         _stepTurtle(n ? (n+1) : 1);
       }
     }
