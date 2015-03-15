@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logoish</title>
+  <script src='logoish.js'></script>
+</head>
+<body>
+
+<a id='download' href='javascript:downloadRecording();'>Download</a>
+
+<script>
+Logoish.init();
+
+record();
+    lineWidth(4);
+    lineColor("red");
+    forward(60);
+    rotate(120);
+    forward(60);
+    rotate(120);
+    forward(60);
+stopRecording();
+reset();
+
+//setupDownload(document.getElementById('download'));
+
+//replay();
+
+</script>
+
+
+	
+</body>
+</html>

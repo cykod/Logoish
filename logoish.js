@@ -17,11 +17,20 @@ Logoish = (function() {
     speed: 5 
   }
 
+  var recorded = [];
+
   var queue = [];
 
   var context = null;
 
   var animate = {};
+
+  self.add = function(step) {
+    if(self.recording) {
+      recorded.push(step.slice());
+    }
+    queue.push(step);
+  }
 
   self.init = function() {
     createCanvas();
@@ -31,8 +40,34 @@ Logoish = (function() {
     _stepTurtle();
   }
 
+  self.record = function() {
+    self.recording = true;
+    recorded = [];
+  };
+
+  self.stopRecording = function() {
+    self.recording = false;
+  };
+
+  self.replay = function() {
+    for(var i=0;i < recorded.length;i++) {
+      queue.push(recorded[i].slice());
+    }
+  };
+
+  self.downloadRecording = function() {
+    var link = document.createElement("a")
+    link.addEventListener("click",function() {
+      var data = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(recorded));
+      link.href = 'data:' + data;
+      link.download = "recording.json"
+    });
+    link.style.display = "none";
+    link.click();
+  };
+
   self.clear = function() {
-    queue.push( ["clear"]);
+    self.add( ["clear"]);
   }
 
   animate.clear = function() {
@@ -40,7 +75,7 @@ Logoish = (function() {
   }
 
   self.reset = function() {
-    queue.push( ["reset"]);
+    self.add( ["reset"]);
   }
 
   animate.reset = function() {
@@ -55,7 +90,7 @@ Logoish = (function() {
   }
 
   self.lineWidth = function(width) {
-    queue.push( ["lineWidth", width ]);
+    self.add( ["lineWidth", width ]);
   }
 
   animate.lineWidth = function(entry) {
@@ -64,7 +99,7 @@ Logoish = (function() {
   }
 
   self.lineColor = function(color) {
-    queue.push( ["lineColor", color]);
+    self.add( ["lineColor", color]);
   }
 
   animate.lineColor = function(entry) {
@@ -73,10 +108,10 @@ Logoish = (function() {
   };
 
   self.forward = function(distance) {
-    queue.push([ "forward", distance ]);
+    self.add([ "f", distance ]);
   }
 
-  animate.forward = function(entry) {
+  animate.f = function(entry) {
     if(!entry[2]) {
       entry[2] = state.x;
       entry[3] = state.y;
@@ -100,11 +135,11 @@ Logoish = (function() {
   }
 
   self.arcRight = function(radius, angle) {
-    queue.push([ "arc", radius, angle, false ]);
+    self.add([ "arc", radius, angle, false ]);
   }
 
   self.arcLeft = function(radius, angle) {
-    queue.push([ "arc", radius, angle, true]);
+    self.add([ "arc", radius, angle, true]);
   }
 
   animate.arc = function(entry) {
@@ -136,7 +171,7 @@ Logoish = (function() {
   }
 
   self.skip = function(distance) {
-    queue.push([ "skip", distance ]);
+    self.add([ "skip", distance ]);
   }
 
   animate.skip = function(entry) {
@@ -151,10 +186,10 @@ Logoish = (function() {
   }
 
   self.rotate = function(angle) {
-    queue.push([ "rotate", angle ]);
+    self.add([ "r", angle ]);
   }
 
-  animate.rotate = function(entry) {
+  animate.r = function(entry) {
     var angle = entry[1];
     if(state.speed && Math.abs(angle) > state.speed) {
       angle = angle > 0 ? state.speed : -state.speed;
@@ -170,7 +205,7 @@ Logoish = (function() {
   };
 
   self.moveTo = function(x,y) {
-    queue.push(["moveTo", x, y ]);
+    self.add(["moveTo", x, y ]);
   };
 
 
@@ -181,7 +216,7 @@ Logoish = (function() {
   }
 
   self.move = function(x,y) {
-    queue.push(["move", x, y ]);
+    self.add(["move", x, y ]);
   };
 
 
@@ -189,11 +224,24 @@ Logoish = (function() {
     state.x += entry[1];
     state.y += entry[2];
     _positionTurtle();
-  }
+  };
 
+  self.lineTo = function(x,y) {
+    self.add(["l", x, y ]);
+  };
+
+  animate.l = function(entry) {
+    context.beginPath();
+    context.moveTo(state.x,state.y);
+    state.x += entry[1];
+    state.y += entry[2];
+    context.lineTo(state.x,state.y);
+    context.stroke();
+    _positionTurtle();
+  };
 
   self.hide = function() {
-    queue.push(["hide"]);
+    self.add(["hide"]);
   };
 
   animate.hide = function() {
@@ -202,7 +250,7 @@ Logoish = (function() {
 
 
   self.show = function() {
-    queue.push(["show"]);
+    self.add(["show"]);
   };
 
   animate.show = function() {
@@ -210,7 +258,7 @@ Logoish = (function() {
   };
 
   self.angle = function(angle) {
-    queue.push(["angle", angle]);
+    self.add(["angle", angle]);
   };
 
   animate.angle = function(entry) {
@@ -219,7 +267,7 @@ Logoish = (function() {
 
 
   self.speed = function(speed) {
-    queue.push(["speed", speed]);
+    self.add(["speed", speed]);
   };
 
   animate.speed = function(entry) {
@@ -229,8 +277,6 @@ Logoish = (function() {
   self.stop = function() {
     queue = [];
   };
-
-
 
 
   function _setState() {
