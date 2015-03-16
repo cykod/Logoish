@@ -45,6 +45,10 @@ Logoish = (function() {
     recorded = [];
   };
 
+  self.loadRecording = function(json) {
+    recorded = json;
+  }
+
   self.stopRecording = function() {
     self.recording = false;
   };
