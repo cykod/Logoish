@@ -233,8 +233,8 @@ Logoish = (function() {
   animate.l = function(entry) {
     context.beginPath();
     context.moveTo(state.x,state.y);
-    state.x += entry[1];
-    state.y += entry[2];
+    state.x = entry[1];
+    state.y = entry[2];
     context.lineTo(state.x,state.y);
     context.stroke();
     _positionTurtle();
