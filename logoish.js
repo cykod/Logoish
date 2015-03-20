@@ -245,10 +245,10 @@ Logoish = (function() {
     }
 
     context.beginPath();
-    context.moveTo(state.x - diffX*2,state.y - diffX*2);
+    context.moveTo(state.x - diffX*2,state.y - diffY*2);
     state.x = entry[1];
     state.y = entry[2];
-    context.moveTo(state.x + diffX*2,state.y + diffX*2);
+    context.lineTo(state.x + diffX*2,state.y + diffY*2);
     context.stroke();
     _positionTurtle();
   };
