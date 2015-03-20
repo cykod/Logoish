@@ -235,11 +235,20 @@ Logoish = (function() {
   };
 
   animate.l = function(entry) {
+    var diffX = (entry[1] - state.x);
+    var diffY = (entry[2] - state.y);
+
+    var dist = Math.sqrt(diffX * diffX + diffY * diffY);
+    if(dist > 0) {
+      diffX /= dist;
+      diffY /= dist;
+    }
+
     context.beginPath();
-    context.moveTo(state.x,state.y);
+    context.moveTo(state.x - diffX*2,state.y - diffX*2);
     state.x = entry[1];
     state.y = entry[2];
-    context.lineTo(state.x,state.y);
+    context.moveTo(state.x + diffX*2,state.y + diffX*2);
     context.stroke();
     _positionTurtle();
   };
